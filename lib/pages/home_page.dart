@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task2/widgets/grid_tile.dart';
 
 import '../widgets/title.dart';
 
@@ -10,6 +11,10 @@ class HomePage extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          leading: Icon(
+            Icons.playlist_add_check,
+            color: Theme.of(context).iconTheme.color,
+          ),
           title:
               Text("To-Do", style: Theme.of(context).textTheme.headlineMedium),
         ),
@@ -26,18 +31,26 @@ class HomePage extends StatelessWidget {
                   color: Theme.of(context).iconTheme.color,
                 ),
               ],
-            )
-            // GridView.builder(
-            //   gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-            //     maxCrossAxisExtent: 2,
-            //   ),
-            //   itemBuilder: (context, index) {
-            //     return const GridTile(
-            //       child: Center(child: Text('Work')),
-            //     );
-            //   },
-            //   itemCount: 5,
-            // ),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.70,
+              child: GridView.builder(
+                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 300,
+                  childAspectRatio: 75 / 100,
+                  crossAxisSpacing: 20,
+                  mainAxisSpacing: 20,
+                ),
+                itemBuilder: (context, index) {
+                  return MyGridTile(
+                    index: index,
+                    title: "Work",
+                    tasks: "5",
+                  );
+                },
+                itemCount: 5,
+              ),
+            ),
           ],
         ),
       ),

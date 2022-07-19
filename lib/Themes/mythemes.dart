@@ -3,9 +3,14 @@ import 'package:flutter/services.dart';
 
 class MyThemes {
   static final lightTheme = ThemeData(
-    scaffoldBackgroundColor: Colors.white,
+    scaffoldBackgroundColor: const Color.fromARGB(255, 244, 241, 250),
     primarySwatch: Colors.blueGrey,
     iconTheme: const IconThemeData(color: Colors.black, size: 40),
+    appBarTheme: const AppBarTheme(
+      titleTextStyle: TextStyle(fontFamily: 'lato', color: Colors.black),
+      backgroundColor: const Color.fromARGB(255, 236, 232, 238),
+      systemOverlayStyle: SystemUiOverlayStyle.dark,
+    ),
     drawerTheme: const DrawerThemeData(
       backgroundColor: Colors.white,
     ),
@@ -83,11 +88,6 @@ class MyThemes {
       brightness: Brightness.light,
       primary: Colors.lightBlueAccent,
       secondary: Colors.blue,
-    ),
-    appBarTheme: const AppBarTheme(
-      titleTextStyle: TextStyle(fontFamily: 'lato', color: Colors.white10),
-      backgroundColor: Colors.white,
-      systemOverlayStyle: SystemUiOverlayStyle.dark,
     ),
   );
 
