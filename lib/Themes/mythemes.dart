@@ -5,7 +5,7 @@ class MyThemes {
   static final lightTheme = ThemeData(
     scaffoldBackgroundColor: Colors.white,
     primarySwatch: Colors.blueGrey,
-    iconTheme: const IconThemeData(color: Colors.blueGrey, size: 50),
+    iconTheme: const IconThemeData(color: Colors.black, size: 40),
     drawerTheme: const DrawerThemeData(
       backgroundColor: Colors.white,
     ),
@@ -65,7 +65,7 @@ class MyThemes {
         fontWeight: FontWeight.bold,
       ),
       headlineMedium: TextStyle(
-        color: Color.fromARGB(255, 54, 71, 79),
+        color: Colors.black,
         fontFamily: 'Lato-Bold',
         fontSize: 20,
         fontWeight: FontWeight.bold,

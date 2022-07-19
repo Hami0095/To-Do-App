@@ -15,7 +15,18 @@ class HomePage extends StatelessWidget {
         ),
         body: Column(
           children: [
-            const MyTitle(),
+            Row(
+              children: [
+                const MyTitle(),
+                const SizedBox(
+                  width: 25,
+                ),
+                Icon(
+                  Icons.hourglass_bottom_rounded,
+                  color: Theme.of(context).iconTheme.color,
+                ),
+              ],
+            )
             // GridView.builder(
             //   gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
             //     maxCrossAxisExtent: 2,
