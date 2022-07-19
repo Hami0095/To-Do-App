@@ -58,24 +58,24 @@ class MyGridTile extends StatelessWidget {
                     Colors.primaries[_random.nextInt(Colors.primaries.length)]
                         [_random.nextInt(13) * 100],
                 maxRadius: 20,
-                child: IconButton(
-                  onPressed: null,
-                  icon: Icon(
-                    icons[index <= icons.length ? index : 0],
-                    color: Colors
-                            .primaries[_random.nextInt(Colors.primaries.length)]
-                        [_random.nextInt(7) * 100],
-                    size: 18,
-                  ),
+                child: Icon(
+                  icons[index <= icons.length ? index : 0],
+                  color:
+                      Colors.primaries[_random.nextInt(Colors.primaries.length)]
+                          [_random.nextInt(7) * 100],
+                  size: 18,
                 ),
               ),
             ),
             const SizedBox(
               height: 10,
             ),
-            Text(title, style: Theme.of(context).textTheme.titleLarge),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(title, style: Theme.of(context).textTheme.titleLarge),
+            ),
             const SizedBox(
-              height: 10,
+              height: 8,
             ),
             Text("$tasks tasks", style: Theme.of(context).textTheme.labelLarge),
           ],
