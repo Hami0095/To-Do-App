@@ -59,7 +59,7 @@ class MyGridTile extends StatelessWidget {
                         [_random.nextInt(13) * 100],
                 maxRadius: 20,
                 child: Icon(
-                  icons[index <= icons.length ? index : 0],
+                  icons[index < icons.length ? index : 0],
                   color:
                       Colors.primaries[_random.nextInt(Colors.primaries.length)]
                           [_random.nextInt(7) * 100],
