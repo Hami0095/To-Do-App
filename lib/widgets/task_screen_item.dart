@@ -1,23 +1,18 @@
 import 'package:flutter/material.dart';
 
-class TaskScreenItems extends StatelessWidget {
-  String? title;
-  String? category;
-  bool marked;
-  String taskId;
+import '../provider/task.dart';
 
+class TaskScreenItems extends StatelessWidget {
+  Task task;
   TaskScreenItems({
     Key? key,
-    this.title,
-    this.category,
-    required this.marked,
-    required this.taskId,
+    required this.task,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: ValueKey(taskId),
+      key: ValueKey(task.taskId),
       background: Container(
         margin: const EdgeInsets.symmetric(
           vertical: 4,
@@ -44,8 +39,8 @@ class TaskScreenItems extends StatelessWidget {
             backgroundColor: Colors.white,
             radius: 25,
           ),
-          title: Text(title!),
-          subtitle: Text(category!),
+          title: Text(task.title!),
+          subtitle: Text(task.category!),
         ),
       ),
       direction: DismissDirection.endToStart,

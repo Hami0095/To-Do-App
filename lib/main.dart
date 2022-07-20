@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:task2/Themes/mythemes.dart';
+import 'package:task2/pages/tasks_screen.dart';
 
 import './pages/home_page.dart';
 
@@ -17,6 +18,9 @@ class MyApp extends StatelessWidget {
       title: 'To-Do',
       theme: MyThemes.lightTheme,
       home: HomePage(),
+      routes: {
+        TaskScreen.routeName: (ctx) => const TaskScreen(),
+      },
     );
   }
 }

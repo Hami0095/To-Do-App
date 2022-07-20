@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-
-class Task extends ChangeNotifier {
+class Task {
   String? taskId;
   String? title;
   String? category;
@@ -11,7 +9,4 @@ class Task extends ChangeNotifier {
     required this.category,
     this.state = false,
   });
-  void toggleState() {
-    state = state == false ? state : !state;
-  }
 }
