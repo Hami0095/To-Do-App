@@ -14,30 +14,30 @@ class _HomePageState extends State<HomePage> {
   final ScrollController scrollcontroller = ScrollController();
 
   // ignore: non_constant_identifier_names
-  bool scroll_visibility = true;
+  // bool scroll_visibility = true;
   late var _gridHeight;
-  @override
-  void didChangeDependencies() {
-    _gridHeight = MediaQuery.of(context).size.height * 0.70;
-    scrollcontroller.addListener(() {
-      late bool flag;
-      if (scrollcontroller.position.pixels > 0 ||
-          scrollcontroller.position.pixels <
-              scrollcontroller.position.maxScrollExtent) {
-        flag = false;
-      } else {
-        flag = true;
-      }
-      setState(() {
-        _gridHeight = (MediaQuery.of(context).size.height * 0.85);
-        scroll_visibility = flag;
-        print(scroll_visibility);
-        print(scrollcontroller.position.pixels);
-        print("dependency changed");
-      });
-    });
-    super.didChangeDependencies();
-  }
+  // @override
+  // void didChangeDependencies() {
+  //   _gridHeight = MediaQuery.of(context).size.height * 0.70;
+  //   scrollcontroller.addListener(() {
+  //     late bool flag;
+  //     if (scrollcontroller.position.pixels > 0 ||
+  //         scrollcontroller.position.pixels <
+  //             scrollcontroller.position.maxScrollExtent) {
+  //       flag = false;
+  //     } else {
+  //       flag = true;
+  //     }
+  //     setState(() {
+  //       _gridHeight = (MediaQuery.of(context).size.height * 0.85);
+  //       scroll_visibility = flag;
+  //       print(scroll_visibility);
+  //       print(scrollcontroller.position.pixels);
+  //       print("dependency changed");
+  //     });
+  //   });
+  //   super.didChangeDependencies();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -54,21 +54,18 @@ class _HomePageState extends State<HomePage> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              Visibility(
-                visible: scroll_visibility,
-                child: Row(
-                  children: [
-                    const MyTitle(),
-                    const SizedBox(
-                      width: 25,
-                    ),
-                    Icon(
-                      // Make it a button
-                      Icons.hourglass_bottom_rounded,
-                      color: Theme.of(context).iconTheme.color,
-                    ),
-                  ],
-                ),
+              Row(
+                children: [
+                  const MyTitle(),
+                  const SizedBox(
+                    width: 25,
+                  ),
+                  Icon(
+                    // Make it a button
+                    Icons.hourglass_bottom_rounded,
+                    color: Theme.of(context).iconTheme.color,
+                  ),
+                ],
               ),
               SizedBox(
                 height: _gridHeight,
