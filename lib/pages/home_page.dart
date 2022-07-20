@@ -55,6 +55,15 @@ class _HomePageState extends State<HomePage> {
             Icons.playlist_add_check,
             color: Theme.of(context).iconTheme.color,
           ),
+          flexibleSpace: IconButton(
+            onPressed: (() {
+              Navigator.of(context).pushNamed('/task_screen');
+            }),
+            icon: Icon(
+              Icons.hourglass_bottom_rounded,
+              color: Theme.of(context).iconTheme.color,
+            ),
+          ),
           title:
               Text("To-Do", style: Theme.of(context).textTheme.headlineMedium),
         ),
@@ -73,7 +82,6 @@ class _HomePageState extends State<HomePage> {
                       Navigator.of(context).pushNamed('/task_screen');
                     }),
                     icon: Icon(
-                      // Make it a button
                       Icons.hourglass_bottom_rounded,
                       color: Theme.of(context).iconTheme.color,
                     ),
@@ -97,11 +105,11 @@ class _HomePageState extends State<HomePage> {
                   itemBuilder: (context, index) {
                     return MyGridTile(
                       index: index,
-                      title: "Work",
+                      title: "title",
                       tasks: "5",
                     );
                   },
-                  itemCount: 50,
+                  itemCount: 5,
                 ),
               ),
             ),
