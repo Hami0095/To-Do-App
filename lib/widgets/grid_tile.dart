@@ -31,7 +31,7 @@ class MyGridTile extends StatelessWidget {
     Colors.tealAccent
   ];
 
-  Random _random = Random();
+  final Random _random = Random();
 
   List icons = [
     Icons.work,

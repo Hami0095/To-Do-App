@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:task2/pages/tasks_screen.dart';
 import 'package:task2/widgets/grid_tile.dart';
 
 import '../widgets/title.dart';
 
 class HomePage extends StatefulWidget {
+  // ignore: prefer_const_constructors_in_immutables
   HomePage({Key? key}) : super(key: key);
 
   @override
@@ -33,13 +35,10 @@ class _HomePageState extends State<HomePage> {
                   scrollcontroller.position.maxScrollExtent) {
             flag = true;
             scroll_visibility = true;
-            print("its in here");
+
             _gridHeight = MediaQuery.of(context).size.height * 0.70;
           }
           scroll_visibility = flag;
-          print(scrollcontroller.position.pixels);
-          print(scroll_visibility);
-          print("dependency changed");
         });
       },
     );
@@ -55,15 +54,17 @@ class _HomePageState extends State<HomePage> {
             Icons.playlist_add_check,
             color: Theme.of(context).iconTheme.color,
           ),
-          flexibleSpace: IconButton(
-            onPressed: (() {
-              Navigator.of(context).pushNamed('/task_screen');
-            }),
-            icon: Icon(
-              Icons.hourglass_bottom_rounded,
-              color: Theme.of(context).iconTheme.color,
+          actions: [
+            IconButton(
+              onPressed: (() {
+                Navigator.of(context).pushNamed(TaskScreen.routeName);
+              }),
+              icon: Icon(
+                Icons.hourglass_bottom_rounded,
+                color: Theme.of(context).iconTheme.color,
+              ),
             ),
-          ),
+          ],
           title:
               Text("To-Do", style: Theme.of(context).textTheme.headlineMedium),
         ),
@@ -79,7 +80,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   IconButton(
                     onPressed: (() {
-                      Navigator.of(context).pushNamed('/task_screen');
+                      Navigator.of(context).pushNamed(TaskScreen.routeName);
                     }),
                     icon: Icon(
                       Icons.hourglass_bottom_rounded,
@@ -97,7 +98,7 @@ class _HomePageState extends State<HomePage> {
                 child: GridView.builder(
                   gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                     maxCrossAxisExtent: 300,
-                    childAspectRatio: 80 / 100,
+                    childAspectRatio: 75 / 100,
                     crossAxisSpacing: 20,
                     mainAxisSpacing: 20,
                   ),
@@ -105,11 +106,11 @@ class _HomePageState extends State<HomePage> {
                   itemBuilder: (context, index) {
                     return MyGridTile(
                       index: index,
-                      title: "title",
+                      title: "Category",
                       tasks: "5",
                     );
                   },
-                  itemCount: 5,
+                  itemCount: 4,
                 ),
               ),
             ),
