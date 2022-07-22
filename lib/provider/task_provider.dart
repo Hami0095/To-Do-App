@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
 import 'dart:core';
 
@@ -8,33 +10,7 @@ import '../provider/task.dart';
 
 class TaskProvider extends ChangeNotifier {
   // ignore: prefer_final_fields
-  List<Task> _items = [
-    // Task(
-    //   taskId: DateTime.now().toString(),
-    //   title: "this is title 1",
-    //   category: "Work",
-    // ),
-    // Task(
-    //   taskId: DateTime.now().toString(),
-    //   title: "this is title 2",
-    //   category: "Work",
-    // ),
-    // Task(
-    //   taskId: DateTime.now().toString(),
-    //   title: "this is title 3",
-    //   category: "Work",
-    // ),
-    // Task(
-    //   taskId: DateTime.now().toString(),
-    //   title: "this is title 4",
-    //   category: "Health",
-    // ),
-    // Task(
-    //   taskId: DateTime.now().toString(),
-    //   title: "this is title 5",
-    //   category: "personal",
-    // ),
-  ];
+  List<Task> _items = [];
 
   List<Task> get items {
     return [..._items];
@@ -50,6 +26,7 @@ class TaskProvider extends ChangeNotifier {
     );
     try {
       print("In Fetch Portion");
+      print("Items : $_items");
       final response = await http.get(url);
       print(json.decode(response.body));
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
@@ -64,10 +41,10 @@ class TaskProvider extends ChangeNotifier {
               state: taskData['state'] ? false : false,
             ),
           );
-          print('\n loaded data  $loadedProducts ');
         },
       );
       _items = loadedProducts;
+      print("Items : $_items");
       notifyListeners();
     } catch (error) {
       // ignore: use_rethrow_when_possible
@@ -106,7 +83,6 @@ class TaskProvider extends ChangeNotifier {
       _items.add(_newTask);
       notifyListeners();
     } catch (e) {
-      // ignore: avoid_print
       print(e.toString());
       // ignore: use_rethrow_when_possible
       throw e;
@@ -114,7 +90,11 @@ class TaskProvider extends ChangeNotifier {
   }
 
   void deleteTask(String id) {
+    print("id : $id");
+    print("\n _items before removing: $_items");
     _items.removeWhere((element) => element.taskId == id);
+    print("\n _items: $_items");
+
     notifyListeners();
   }
 }

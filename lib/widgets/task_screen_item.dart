@@ -37,7 +37,7 @@ class TaskScreenItems extends StatelessWidget {
               child: Icon(
                 Icons.circle_outlined,
                 color: Theme.of(context).iconTheme.color,
-                size: MediaQuery.of(context).size.height * 0.05,
+                size: MediaQuery.of(context).size.height * 0.015,
               ),
             ),
             backgroundColor: Colors.white,

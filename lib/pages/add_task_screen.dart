@@ -57,7 +57,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   }
 
   Future<void> saveForm() async {
-    print('edited product id: ${_editedTask.taskId}');
+    // print('edited product id: ${_editedTask.taskId}');
     final _isValid = _form.currentState?.validate();
     if (!_isValid!) {
       return;
@@ -70,12 +70,12 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
       //     .updateProduct(_editedTask.id, _editedTask);
       Navigator.of(context).pop();
     } else {
-      print('Going to add product');
+      // print('Going to add product');
       try {
         await Provider.of<TaskProvider>(context, listen: false)
             .addProduct(_editedTask);
       } catch (e) {
-        showDialog<Null>(
+        showDialog<void>(
           context: context,
           builder: (ctx) => AlertDialog(
             title: const Text(
@@ -95,8 +95,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
           ),
         );
       } finally {
-        setState(() {});
-        print('Going out of the save product');
+        // print('Going out of the save product');
         Navigator.of(context).pop();
       }
     }
