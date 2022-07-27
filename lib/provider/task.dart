@@ -1,12 +1,12 @@
 class Task {
   String? taskId;
   String? title;
-  String? category;
+  String? date;
   bool state = false;
   Task({
     required this.taskId,
     required this.title,
-    required this.category,
+    required this.date,
     this.state = false,
   });
 }

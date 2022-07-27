@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:task2/firebase_options.dart';
 import 'package:task2/pages/add_task_screen.dart';
-
+import 'package:firebase_core/firebase_core.dart' show Firebase;
 import './Themes/mythemes.dart';
 import './pages/tasks_screen.dart';
 import './pages/home_page.dart';
 import 'provider/task_provider.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
