@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print
 
+// import 'dart:_http';
 import 'dart:convert';
 import 'dart:core';
 
@@ -37,7 +38,7 @@ class TaskProvider extends ChangeNotifier {
             Task(
               taskId: taskId,
               title: taskData['title'],
-              category: taskData['category'],
+              date: taskData['date'],
               state: taskData['state'] ? false : false,
             ),
           );
@@ -55,10 +56,31 @@ class TaskProvider extends ChangeNotifier {
     }
   }
 
+  Future<void> updateProduct(String id, Task editedTask) async {
+    final taskIndex = _items.indexWhere((task) => task.taskId == id);
+    print("\n \n \n \n  IN UPDATE PROVIDER");
+    if (taskIndex >= 0) {
+      final url = Uri.parse(
+        'https://fbp1-5dc1a-default-rtdb.firebaseio.com/task/$id.json',
+      );
+      await http.patch(
+        url,
+        body: json.encode(
+          {
+            'title': editedTask.title,
+          },
+        ),
+      );
+      _items[taskIndex] = editedTask;
+      notifyListeners();
+    } else {
+      print('error in update');
+    }
+  }
+
   Future<void> addProduct(Task task) async {
     // ignore: prefer_typing_uninitialized_variables
     late final _newTask;
-    print('in addProduct()');
 
     final url = Uri.parse(
       'https://fbp1-5dc1a-default-rtdb.firebaseio.com/task.json',
@@ -70,7 +92,7 @@ class TaskProvider extends ChangeNotifier {
         body: json.encode(
           {
             'title': task.title,
-            'category': task.category,
+            'date': task.date,
             'state': task.state,
           },
         ),
@@ -78,7 +100,7 @@ class TaskProvider extends ChangeNotifier {
       _newTask = Task(
         taskId: json.decode(response.body)['name'],
         title: task.title,
-        category: task.category,
+        date: task.date,
       );
       _items.add(_newTask);
       notifyListeners();
@@ -89,11 +111,22 @@ class TaskProvider extends ChangeNotifier {
     }
   }
 
-  void deleteTask(String id) {
-    print("id : $id");
-    print("\n _items before removing: $_items");
-    _items.removeWhere((element) => element.taskId == id);
-    print("\n _items: $_items");
+  Future<void> deleteTask(String id) async {
+    final url = Uri.parse(
+      'https://fbp1-5dc1a-default-rtdb.firebaseio.com/task/$id.json',
+    );
+    final existingProductIndex =
+        _items.indexWhere((element) => element.taskId == id);
+    Task? existingProduct = _items[existingProductIndex];
+    _items.removeAt(existingProductIndex);
+    notifyListeners();
+    final response = await http.delete(url);
+    if (response.statusCode >= 400) {
+      _items.insert(existingProductIndex, existingProduct);
+      notifyListeners();
+      // throw HttpException('Could not delete product.');
+    }
+    existingProduct = null;
 
     notifyListeners();
   }

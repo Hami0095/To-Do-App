@@ -1,5 +1,4 @@
 // ignore_for_file: prefer_final_fields
-
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
@@ -17,15 +16,16 @@ class AddTaskScreen extends StatefulWidget {
 
 class _AddTaskScreenState extends State<AddTaskScreen> {
   final _form = GlobalKey<FormState>();
-
+  final dateController = TextEditingController();
+  final _dateFocusNode = FocusNode();
   var _initValues = {
     'title': '',
     'id': DateTime.now().toString(),
-    'cateogory': 'work',
+    'date': '',
     'state': 'false',
   };
 
-  var _editedTask = Task(taskId: '', title: '', category: '');
+  var _editedTask = Task(taskId: '', title: '', date: '');
   var _isInit = true;
 
   @override
@@ -37,68 +37,60 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   void didChangeDependencies() {
     if (_isInit) {
       final taskId = ModalRoute.of(context)?.settings.arguments as String?;
-      if (taskId != null) {
+      print("\n \n \n  TASK ID ==>  $taskId \n");
+      if (taskId != null) {      
         _editedTask =
             Provider.of<TaskProvider>(context, listen: false).findByID(taskId);
         _initValues = {
           'title': _editedTask.title!,
           'taskId': _editedTask.taskId!,
-          'category': _editedTask.category!,
+          'date': _editedTask.date!,
         };
       }
     }
-    super.didChangeDependencies();
     _isInit = false;
+    super.didChangeDependencies();
   }
 
   @override
   void dispose() {
+    dateController.dispose();
     super.dispose();
   }
 
-  Future<void> saveForm() async {
-    // print('edited product id: ${_editedTask.taskId}');
-    final _isValid = _form.currentState?.validate();
-    if (!_isValid!) {
+  Future<void> _saveForm() async {
+    final isValid = _form.currentState?.validate();
+    if (!isValid!) {
       return;
     }
     _form.currentState?.save();
     setState(() {});
     if (_editedTask.taskId != '') {
-      // print('Going to update the task');
-      // Provider.of<TaskProvider>(context, listen: false)
-      //     .updateProduct(_editedTask.id, _editedTask);
-      Navigator.of(context).pop();
+      await Provider.of<TaskProvider>(context, listen: false)
+          .updateProduct(_editedTask.taskId!, _editedTask);
     } else {
-      // print('Going to add product');
       try {
         await Provider.of<TaskProvider>(context, listen: false)
             .addProduct(_editedTask);
-      } catch (e) {
-        showDialog<void>(
-          context: context,
-          builder: (ctx) => AlertDialog(
-            title: const Text(
-              'Bhai-Error',
-            ),
-            content: const Text('Something went Wrong bhai'),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(ctx).pop();
-                },
-                child: const Text(
-                  'Okay',
-                ),
-              ),
-            ],
-          ),
-        );
-      } finally {
-        // print('Going out of the save product');
-        Navigator.of(context).pop();
+      } catch (error) {
+        await showDialog<Null>(
+            context: context,
+            builder: (ctx) => AlertDialog(
+                  title: const Text('An error occured!'),
+                  content: const Text('Something went wrong!'),
+                  actions: [
+                    FlatButton(
+                      onPressed: () {
+                        Navigator.of(ctx).pop();
+                      },
+                      child: const Text('Okay'),
+                    ),
+                  ],
+                ));
       }
     }
+    setState(() {});
+    Navigator.of(context).pop();
   }
 
   @override
@@ -106,12 +98,12 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Add Your Task",
+          "Edition",
           style: Theme.of(context).textTheme.headlineMedium,
         ),
         actions: [
           IconButton(
-            onPressed: (() => saveForm()),
+            onPressed: (() => _saveForm()),
             icon: Icon(
               Icons.save_outlined,
               color: Theme.of(context).iconTheme.color,
@@ -149,11 +141,13 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 onSaved: (value) {
                   _editedTask = Task(
                     taskId: _editedTask.taskId,
-                    title: value!,
-                    category: _editedTask.category,
+                    title: value!.toString(),
+                    date: _editedTask.date,
                     state: _editedTask.state,
                   );
                 },
+                onFieldSubmitted: (_) =>
+                    FocusScope.of(context).requestFocus(_dateFocusNode),
                 validator: (v) {
                   if (v!.isEmpty) {
                     return 'Please enter value';
@@ -163,9 +157,34 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 },
               ),
             ),
+            TextFormField(
+              decoration: const InputDecoration(hintText: 'Pick your Date'),
+              controller: dateController,
+              textInputAction: TextInputAction.next,
+              onSaved: (value) {
+                print("value = $value");
+                _editedTask = Task(
+                  taskId: _editedTask.taskId,
+                  title: _editedTask.title,
+                  date: value!,
+                  state: _editedTask.state,
+                );
+              },
+              onTap: () async {
+                var date = await showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime.now(),
+                  lastDate: DateTime(2100),
+                );
+                dateController.text = date.toString().substring(0, 10);
+              },
+              onFieldSubmitted: (_) => _saveForm(),
+              readOnly: true,
+            ),
             Center(
               child: IconButton(
-                onPressed: (() => saveForm()),
+                onPressed: (() => _saveForm()),
                 icon: Icon(
                   Icons.save_outlined,
                   color: Theme.of(context).iconTheme.color,

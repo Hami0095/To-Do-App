@@ -15,6 +15,7 @@ class TaskScreen extends StatefulWidget {
 
 class _TaskScreenState extends State<TaskScreen> {
   bool _isInit = true;
+
   @override
   Future<void> didChangeDependencies() async {
     if (_isInit) {
@@ -38,8 +39,7 @@ class _TaskScreenState extends State<TaskScreen> {
           actions: [
             IconButton(
               onPressed: (() {
-                Navigator.of(context)
-                    .pushReplacementNamed(AddTaskScreen.routeName);
+                Navigator.of(context).pushNamed(AddTaskScreen.routeName);
               }),
               icon: Icon(
                 Icons.add,
@@ -61,14 +61,13 @@ class _TaskScreenState extends State<TaskScreen> {
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.70,
             child: ListView.builder(
-              itemBuilder: (context, index) => TaskScreenItems(
-                task: Task(
-                  // taskId: taskProvider.items[index].taskId,
-                  // title: taskProvider.items[index].title,
-                  // category: taskProvider.items[index].category,
-                  taskId: _items[index].taskId,
-                  title: _items[index].title,
-                  category: _items[index].category,
+              itemBuilder: (context, index) => GestureDetector(
+                child: TaskScreenItems(
+                  task: Task(
+                    taskId: _items[index].taskId,
+                    title: _items[index].title,
+                    date: _items[index].date,
+                  ),
                 ),
               ),
               itemCount: taskProvider.items.length,
